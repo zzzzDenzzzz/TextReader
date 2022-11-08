@@ -209,6 +209,7 @@
             this.toolStripLabelOpen.Name = "toolStripLabelOpen";
             this.toolStripLabelOpen.Size = new System.Drawing.Size(53, 22);
             this.toolStripLabelOpen.Text = "Открыть";
+            this.toolStripLabelOpen.Click += new System.EventHandler(this.toolStripLabelOpen_Click);
             // 
             // toolStripSeparator1
             // 
