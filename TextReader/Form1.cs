@@ -6,13 +6,11 @@ namespace TextReader
 {
     public partial class Form1 : Form
     {
-        string path = "";
-
         public Form1()
         {
             InitializeComponent();
             Clipboard.Clear();
-            Text = path;
+            Text = "";
         }
 
         void Open()
@@ -26,6 +24,7 @@ namespace TextReader
                 {
                     using (StreamReader reader = File.OpenText(open.FileName))
                     {
+                        Text = Path.GetFullPath(open.FileName);
                         textBox.Text = reader.ReadToEnd();
                     }
                 }
@@ -34,15 +33,18 @@ namespace TextReader
 
         void Save()
         {
-            using (var save = new SaveFileDialog())
+            if (Text != "")
             {
-                if (save.ShowDialog() == DialogResult.OK)
+                using (var stream = new StreamWriter(Path.GetFullPath(Text), false))
                 {
-                    using (var writer = new StreamWriter(save.FileName))
-                    {
-                        writer.Write(textBox.Text);
-                    }
+                    stream.WriteLine(textBox.Text);
+                    MessageBox.Show($"Файл сохранен по адресу {Text}");
                 }
+                Clipboard.Clear();
+            }
+            else
+            {
+                MessageBox.Show("Сначала откройте файл");
             }
         }
 
@@ -129,12 +131,22 @@ namespace TextReader
 
         void SelectAll()
         {
-
+            textBox.Focus();
+            textBox.SelectAll();
         }
 
         void SaveAs()
         {
-
+            using (var save = new SaveFileDialog())
+            {
+                if (save.ShowDialog() == DialogResult.OK)
+                {
+                    using (var writer = new StreamWriter(save.FileName))
+                    {
+                        writer.Write(textBox.Text);
+                    }
+                }
+            }
         }
 
         private void toolStripLabelOpen_Click(object sender, EventArgs e)
@@ -185,6 +197,86 @@ namespace TextReader
         private void panelFontColor_Click(object sender, EventArgs e)
         {
             FontColor();
+        }
+
+        private void toolStripMenuItemOpen_Click(object sender, EventArgs e)
+        {
+            Open();
+        }
+
+        private void toolStripMenuItemSave_Click(object sender, EventArgs e)
+        {
+            Save();
+        }
+
+        private void toolStripMenuItemNewDocument_Click(object sender, EventArgs e)
+        {
+            NewDocument();
+        }
+
+        private void toolStripMenuItemCopy_Click(object sender, EventArgs e)
+        {
+            Copy();
+        }
+
+        private void toolStripMenuItemCut_Click(object sender, EventArgs e)
+        {
+            Cut();
+        }
+
+        private void toolStripMenuItemInsert_Click(object sender, EventArgs e)
+        {
+            Insert();
+        }
+
+        private void toolStripMenuItemCancel_Click(object sender, EventArgs e)
+        {
+            Cancel();
+        }
+
+        private void ToolStripMenuItemFontColor_Click(object sender, EventArgs e)
+        {
+            FontColor();
+        }
+
+        private void toolStripMenuItemBackgroundColor_Click(object sender, EventArgs e)
+        {
+            BackgroundColor();
+        }
+
+        private void toolStripMenuItemFont_Click(object sender, EventArgs e)
+        {
+            Font();
+        }
+
+        private void toolStripMenuItemSelectAll_Click(object sender, EventArgs e)
+        {
+            SelectAll();
+        }
+
+        private void toolStripMenuItemSaveAs_Click(object sender, EventArgs e)
+        {
+            SaveAs();
+        }
+
+        private void ContextMenuItemCopy_Click(object sender, EventArgs e)
+        {
+            Copy();
+        }
+
+        private void ContextMenuItemCut_Click(object sender, EventArgs e)
+        {
+            Cut();
+        }
+
+        private void ContextMenuItemInsert_Click(object sender, EventArgs e)
+        {
+            Insert();
+        }
+
+        private void ContextMenuItemCancel_Click(object sender, EventArgs e)
+        {
+            Cancel();
         }
     }
 }
