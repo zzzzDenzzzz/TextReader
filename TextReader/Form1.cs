@@ -94,6 +94,7 @@ namespace TextReader
         void Cancel()
         {
             textBox.Undo();
+            textBox.ClearUndo();
         }
 
         void FontColor()
